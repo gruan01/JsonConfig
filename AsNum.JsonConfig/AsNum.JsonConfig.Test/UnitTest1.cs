@@ -11,6 +11,7 @@ namespace AsNum.JsonConfig.Test
         [TestInitialize]
         public void Init()
         {
+            JsonConfig.Init();
             JsonConfig.Regist<TestConfig>();
             var tc = JsonConfig.Get<TestConfig>();
             tc.Changed += (sender, e) =>

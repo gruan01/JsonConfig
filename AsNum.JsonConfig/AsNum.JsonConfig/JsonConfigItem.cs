@@ -18,6 +18,7 @@ namespace AsNum.JsonConfig
         /// <summary>
         /// If config contains security infomation, please set IsSecruity as ture
         /// </summary>
+        [JsonIgnore]
         public abstract bool IsSecurity { get; }
 
         /// <summary>

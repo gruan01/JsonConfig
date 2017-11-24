@@ -184,9 +184,9 @@ namespace AsNum.JsonConfig
                 Map.Add(key, cfg);
 
             var json = JsonConvert.SerializeObject(cfg, Formatting.Indented);
-            var file = Path.Combine(BaseDir, $"{cfg.CfgFile}");
+            //var file = Path.Combine(cfg.IsSecurity ? SecurityBaseDir : BaseDir, $"{cfg.CfgFile}");
 
-            File.WriteAllText(file, json);
+            File.WriteAllText(cfg.CfgPath, json);
         }
     }
 }
