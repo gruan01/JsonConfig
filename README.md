@@ -5,6 +5,7 @@ Json Config for .NET Framework , support hot fix.
 
 ### 1, Regist in Global or Program:
 ~~~
+JsonConfig.Init();
 JsonConfig.Regist<TestConfig>();
 ~~~
 
