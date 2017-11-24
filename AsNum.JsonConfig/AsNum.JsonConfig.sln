@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsNum.JsonConfig", "AsNum.JsonConfig\AsNum.JsonConfig.csproj", "{C96EF65B-89BD-483E-8204-B853338481FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsNum.JsonConfig.Test", "AsNum.JsonConfig.Test\AsNum.JsonConfig.Test.csproj", "{17FCBCAD-5A4E-4E6D-A92B-F48DFDE39693}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C96EF65B-89BD-483E-8204-B853338481FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C96EF65B-89BD-483E-8204-B853338481FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C96EF65B-89BD-483E-8204-B853338481FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C96EF65B-89BD-483E-8204-B853338481FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17FCBCAD-5A4E-4E6D-A92B-F48DFDE39693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17FCBCAD-5A4E-4E6D-A92B-F48DFDE39693}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17FCBCAD-5A4E-4E6D-A92B-F48DFDE39693}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17FCBCAD-5A4E-4E6D-A92B-F48DFDE39693}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F0CE70B0-44BF-4DFA-9A2C-740CB752C1DB}
+	EndGlobalSection
+EndGlobal
