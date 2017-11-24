@@ -46,10 +46,10 @@ namespace AsNum.JsonConfig
         /// <param name="securityBaseDir"></param>
         public static void Init(string baseDir = null, string securityBaseDir = null)
         {
-            if (!string.IsNullOrWhiteSpace(baseDir) && Directory.Exists(baseDir))
+            if (!string.IsNullOrWhiteSpace(baseDir))
                 BaseDir = baseDir;
 
-            if (!string.IsNullOrWhiteSpace(securityBaseDir) && Directory.Exists(securityBaseDir))
+            if (!string.IsNullOrWhiteSpace(securityBaseDir))
                 SecurityBaseDir = securityBaseDir;
 
             Watch(BaseDir);
