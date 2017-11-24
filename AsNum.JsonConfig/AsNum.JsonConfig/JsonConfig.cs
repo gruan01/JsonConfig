@@ -17,13 +17,12 @@ namespace AsNum.JsonConfig
         /// <summary>
         /// Json Config file save path.
         /// </summary>
-        public static string BaseDir
-        {
-            get
-            {
-                return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cfgs");
-            }
-        }
+        public static string BaseDir { get; private set; }
+
+        /// <summary>
+        /// Json Config file save path.
+        /// </summary>
+        public static string SecurityBaseDir { get; private set; }
 
         /// <summary>
         /// 
@@ -33,9 +32,27 @@ namespace AsNum.JsonConfig
             get;
         } = new Dictionary<string, JsonConfigItem>();
 
+
         static JsonConfig()
         {
+            BaseDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cfgs");
+            SecurityBaseDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Cfgs");
+
             Watch();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="baseDir"></param>
+        /// <param name="securityBaseDir"></param>
+        public static void SetBaseDir(string baseDir = null, string securityBaseDir = null)
+        {
+            if (!string.IsNullOrWhiteSpace(baseDir) && Directory.Exists(baseDir))
+                BaseDir = baseDir;
+
+            if (!string.IsNullOrWhiteSpace(securityBaseDir) && Directory.Exists(securityBaseDir))
+                SecurityBaseDir = securityBaseDir;
         }
 
         /// <summary>

@@ -10,11 +10,15 @@ namespace AsNum.JsonConfig
 {
     public abstract class JsonConfigItem
     {
-
         /// <summary>
         /// 
         /// </summary>
         public event EventHandler Changed;
+
+        /// <summary>
+        /// If config contains security infomation, please set IsSecruity as ture
+        /// </summary>
+        public abstract bool IsSecurity { get; }
 
         /// <summary>
         /// Config file's name
@@ -30,7 +34,7 @@ namespace AsNum.JsonConfig
         {
             get
             {
-                return Path.Combine(JsonConfig.BaseDir, this.CfgFile);
+                return Path.Combine(this.IsSecurity ? JsonConfig.SecurityBaseDir : JsonConfig.BaseDir, this.CfgFile);
             }
         }
 
