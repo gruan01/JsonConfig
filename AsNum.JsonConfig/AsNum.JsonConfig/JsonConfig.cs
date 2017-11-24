@@ -37,8 +37,6 @@ namespace AsNum.JsonConfig
         {
             BaseDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cfgs");
             SecurityBaseDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Cfgs");
-
-            Watch();
         }
 
         /// <summary>
@@ -46,13 +44,16 @@ namespace AsNum.JsonConfig
         /// </summary>
         /// <param name="baseDir"></param>
         /// <param name="securityBaseDir"></param>
-        public static void SetBaseDir(string baseDir = null, string securityBaseDir = null)
+        public static void Init(string baseDir = null, string securityBaseDir = null)
         {
             if (!string.IsNullOrWhiteSpace(baseDir) && Directory.Exists(baseDir))
                 BaseDir = baseDir;
 
             if (!string.IsNullOrWhiteSpace(securityBaseDir) && Directory.Exists(securityBaseDir))
                 SecurityBaseDir = securityBaseDir;
+
+            Watch(BaseDir);
+            Watch(SecurityBaseDir);
         }
 
         /// <summary>
@@ -75,12 +76,12 @@ namespace AsNum.JsonConfig
         /// <summary>
         /// Watch file change
         /// </summary>
-        private static void Watch()
+        private static void Watch(string dir)
         {
-            if (!Directory.Exists(BaseDir))
-                Directory.CreateDirectory(BaseDir);
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
 
-            var fw = new FileSystemWatcher(BaseDir, "*.json");
+            var fw = new FileSystemWatcher(dir, "*.json");
             fw.Changed += Fw_Changed;
             fw.Created += Fw_Created;
             fw.Deleted += Fw_Deleted;
