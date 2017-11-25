@@ -12,7 +12,6 @@ namespace AsNum.JsonConfig.Test
 
         public IEnumerable<Test> Datas { get; set; }
 
-        public override bool IsSecurity => true;
 
         public class Test
         {

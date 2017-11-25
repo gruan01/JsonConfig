@@ -8,24 +8,25 @@ using System.Threading.Tasks;
 
 namespace AsNum.JsonConfig
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public abstract class JsonConfigItem
     {
         /// <summary>
         /// 
         /// </summary>
-        public event EventHandler Changed;
+        public event EventHandler<ChangedEventArg> Changed;
 
-        /// <summary>
-        /// If config contains security infomation, please set IsSecruity as ture
-        /// </summary>
-        [JsonIgnore]
-        public abstract bool IsSecurity { get; }
+
 
         /// <summary>
         /// Config file's name
         /// </summary>
         [JsonIgnore]
         public abstract string CfgFile { get; }
+
+
 
         /// <summary>
         /// Config file's path
@@ -35,9 +36,10 @@ namespace AsNum.JsonConfig
         {
             get
             {
-                return Path.Combine(this.IsSecurity ? JsonConfig.SecurityBaseDir : JsonConfig.BaseDir, this.CfgFile);
+                return Path.Combine(JsonConfig.BaseDir, this.CfgFile);
             }
         }
+
 
         /// <summary>
         /// 
@@ -49,14 +51,24 @@ namespace AsNum.JsonConfig
             {
                 try
                 {
-                    var old = this;
+                    var lw = File.GetLastWriteTime(this.CfgPath);
+
+                    var old = JsonConvert.SerializeObject(this, Formatting.None);
 
                     var json = File.ReadAllText(this.CfgPath);
                     var n = (JsonConfigItem)JsonConvert.DeserializeObject(json, this.GetType());
-                    this.Changed?.DynamicInvoke(this, new EventArgs());
-                    return n;
+
+                    DynamicCopy.CopyTo(n, this);
+
+                    this.Changed?.DynamicInvoke(this, new ChangedEventArg()
+                    {
+                        NewJson = json,
+                        OldJson = old
+                    });
+
+                    return this;
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }

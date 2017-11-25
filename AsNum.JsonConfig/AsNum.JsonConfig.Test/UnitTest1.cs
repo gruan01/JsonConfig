@@ -11,13 +11,13 @@ namespace AsNum.JsonConfig.Test
         [TestInitialize]
         public void Init()
         {
-            JsonConfig.Init(@"d:\AA", @"d:\BB");
+            //JsonConfig.Init();
             JsonConfig.Regist<TestConfig>();
-            var tc = JsonConfig.Get<TestConfig>();
-            tc.Changed += (sender, e) =>
-            {
-                Console.WriteLine("Changed");
-            };
+            //var tc = JsonConfig.Get<TestConfig>();
+            //tc.Changed += (sender, e) =>
+            //{
+            //    Console.WriteLine("Changed");
+            //};
         }
 
         [TestMethod]
