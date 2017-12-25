@@ -55,7 +55,7 @@ namespace AsNum.JsonConfig
 
                     var old = JsonConvert.SerializeObject(this, Formatting.None);
 
-                    var json = File.ReadAllText(this.CfgPath);
+                    var json = File.ReadAllText(this.CfgPath, Encoding.UTF8);
                     var n = (JsonConfigItem)JsonConvert.DeserializeObject(json, this.GetType());
 
                     DynamicCopy.CopyTo(n, this);

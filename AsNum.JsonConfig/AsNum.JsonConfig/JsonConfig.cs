@@ -65,10 +65,23 @@ namespace AsNum.JsonConfig
         /// <typeparam name="T"></typeparam>
         public static void Regist<T>() where T : JsonConfigItem, new()
         {
+            var cfg = new T();
+            Regist(cfg);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="cfg"></param>
+        public static void Regist<T>(T cfg) where T : JsonConfigItem
+        {
+            if (cfg == null)
+                throw new ArgumentNullException("cfg");
+
             if (!Initlized)
                 Init();
-
-            var cfg = new T();
 
             var key = Path.GetFileNameWithoutExtension(cfg.CfgFile.ToLower());
 
@@ -169,6 +182,7 @@ namespace AsNum.JsonConfig
             var a = Map.Values.FirstOrDefault(t => type.IsInstanceOfType(t));
             return (T)a;
         }
+
 
 
         /// <summary>
