@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AsNum.JsonConfig {
+namespace AsNum.JsonConfig
+{
     /// <summary>
     /// 
     /// </summary>
@@ -77,14 +72,14 @@ namespace AsNum.JsonConfig {
             }
 
             public static void CopyPropertiesOnly(T source, T target, params Expression<Func<T, object>>[] include) {
-                var cps = Prepare(target.GetType(), true , include);
+                var cps = Prepare(source.GetType(), true , include);
                 foreach (var copyProp in cps) {
                     copyProp.DynamicInvoke(source, target);
                 }
             }
 
             public static void CopyPropertiesExcept(T source, T target, params Expression<Func<T, object>>[] excepts) {
-                var cps = Prepare(target.GetType(), false , excepts);
+                var cps = Prepare(source.GetType(), false , excepts);
                 foreach (var copyProp in cps)
                     copyProp.DynamicInvoke(source, target);
             }
