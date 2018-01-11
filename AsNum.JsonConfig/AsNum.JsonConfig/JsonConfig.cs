@@ -47,7 +47,6 @@ namespace AsNum.JsonConfig
         /// if you want manually specify base dir, you must use Init before Regist.
         /// </summary>
         /// <param name="baseDir"></param>
-        /// <param name="securityBaseDir"></param>
         public static void Init(string baseDir = null)
         {
             if (!Initlized)
@@ -203,7 +202,6 @@ namespace AsNum.JsonConfig
                 Map.Add(key, cfg);
 
             var json = JsonConvert.SerializeObject(cfg, Formatting.Indented);
-            //var file = Path.Combine(cfg.IsSecurity ? SecurityBaseDir : BaseDir, $"{cfg.CfgFile}");
 
             File.WriteAllText(cfg.CfgPath, json);
         }

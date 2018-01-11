@@ -72,14 +72,14 @@ namespace AsNum.JsonConfig
             }
 
             public static void CopyPropertiesOnly(T source, T target, params Expression<Func<T, object>>[] include) {
-                var cps = Prepare(source.GetType(), true , include);
+                var cps = Prepare(typeof(T), true , include);
                 foreach (var copyProp in cps) {
                     copyProp.DynamicInvoke(source, target);
                 }
             }
 
             public static void CopyPropertiesExcept(T source, T target, params Expression<Func<T, object>>[] excepts) {
-                var cps = Prepare(source.GetType(), false , excepts);
+                var cps = Prepare(typeof(T), false , excepts);
                 foreach (var copyProp in cps)
                     copyProp.DynamicInvoke(source, target);
             }
