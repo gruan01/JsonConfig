@@ -22,7 +22,7 @@ namespace AsNum.JsonConfig
         /// <summary>
         /// 
         /// </summary>
-        public static EventHandler<ErrorEventArg> Error { get; }
+        public static event EventHandler<ErrorEventArg> Error;
 
         /// <summary>
         /// 
@@ -49,6 +49,21 @@ namespace AsNum.JsonConfig
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="e"></param>
+        internal static void OnError(JsonConfigItem item, Exception e)
+        {
+            Error?.DynamicInvoke(item, new ErrorEventArg()
+            {
+                CfgFilePath = item?.CfgPath,
+                Exception = e,
+                Msg = e?.Message
+            });
+        }
+
+        /// <summary>
         /// if you want manually specify base dir, you must use Init before Regist.
         /// </summary>
         /// <param name="baseDir"></param>
@@ -60,6 +75,7 @@ namespace AsNum.JsonConfig
                     BaseDir = baseDir;
 
                 Watch(BaseDir);
+                Initlized = true;
             }
         }
 
