@@ -70,7 +70,12 @@ namespace AsNum.JsonConfig
                 }
                 catch (Exception e)
                 {
-
+                    JsonConfig.Error?.DynamicInvoke(this, new ErrorEventArg()
+                    {
+                        CfgFilePath = this.CfgPath,
+                        Exception = e,
+                        Msg = e.Message
+                    });
                 }
             }
 

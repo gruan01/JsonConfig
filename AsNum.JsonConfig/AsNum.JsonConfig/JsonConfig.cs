@@ -22,6 +22,11 @@ namespace AsNum.JsonConfig
         /// <summary>
         /// 
         /// </summary>
+        public static EventHandler<ErrorEventArg> Error { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         private static Dictionary<string, JsonConfigItem> Map
         {
             get;

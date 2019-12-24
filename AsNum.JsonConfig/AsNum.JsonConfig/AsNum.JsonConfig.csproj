@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="ChangedEventArg.cs" />
     <Compile Include="DynamicCopy.cs" />
+    <Compile Include="ErrorEventArg.cs" />
     <Compile Include="JsonConfig.cs" />
     <Compile Include="JsonConfigItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
