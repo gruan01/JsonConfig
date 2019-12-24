@@ -8,14 +8,16 @@ namespace AsNum.JsonConfig
     /// <summary>
     /// 
     /// </summary>
-    public static class DynamicCopy {
+    public static class DynamicCopy
+    {
         /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <param name="target"></param>
-        public static void CopyTo<T>(T source, T target) {
+        public static void CopyTo<T>(T source, T target)
+        {
             Helper<T>.CopyPropertiesOnly(source, target);
         }
 
@@ -26,7 +28,8 @@ namespace AsNum.JsonConfig
         /// <param name="source">源</param>
         /// <param name="target">目标</param>
         /// <param name="only">指定的字段</param>
-        public static void CopyToOnly<T>(this T source, T target, params Expression<Func<T, object>>[] only) {
+        public static void CopyToOnly<T>(this T source, T target, params Expression<Func<T, object>>[] only)
+        {
             Helper<T>.CopyPropertiesOnly(source, target, only);
         }
 
@@ -37,19 +40,23 @@ namespace AsNum.JsonConfig
         /// <param name="source"></param>
         /// <param name="target"></param>
         /// <param name="only"></param>
-        public static void CopyToExcept<T>(this T source, T target, params Expression<Func<T, object>>[] only) {
+        public static void CopyToExcept<T>(this T source, T target, params Expression<Func<T, object>>[] only)
+        {
             Helper<T>.CopyPropertiesExcept(source, target, only);
         }
 
 
-        private class Helper<T> {
-            private static Delegate[] Prepare(Type type , bool flag, params Expression<Func<T, object>>[] exps) {
+        private class Helper<T>
+        {
+            private static Delegate[] Prepare(Type type, bool flag, params Expression<Func<T, object>>[] exps)
+            {
                 //Type type = typeof(T);
                 ParameterExpression source = Expression.Parameter(type, "source");
                 ParameterExpression target = Expression.Parameter(type, "target");
 
                 var onlyNames = exps.Select(o => {
-                    switch (o.Body.NodeType) {
+                    switch (o.Body.NodeType)
+                    {
                         case ExpressionType.MemberAccess:
                             return (o.Body as MemberExpression).Member.Name;
                         case ExpressionType.Convert:
@@ -71,15 +78,18 @@ namespace AsNum.JsonConfig
                 return copyProps.ToArray();
             }
 
-            public static void CopyPropertiesOnly(T source, T target, params Expression<Func<T, object>>[] include) {
-                var cps = Prepare(typeof(T), true , include);
-                foreach (var copyProp in cps) {
+            public static void CopyPropertiesOnly(T source, T target, params Expression<Func<T, object>>[] include)
+            {
+                var cps = Prepare(source.GetType(), true, include);
+                foreach (var copyProp in cps)
+                {
                     copyProp.DynamicInvoke(source, target);
                 }
             }
 
-            public static void CopyPropertiesExcept(T source, T target, params Expression<Func<T, object>>[] excepts) {
-                var cps = Prepare(typeof(T), false , excepts);
+            public static void CopyPropertiesExcept(T source, T target, params Expression<Func<T, object>>[] excepts)
+            {
+                var cps = Prepare(source.GetType(), false, excepts);
                 foreach (var copyProp in cps)
                     copyProp.DynamicInvoke(source, target);
             }
