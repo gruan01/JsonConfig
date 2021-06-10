@@ -8,7 +8,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<TargetFrameworks>net5.0;net45</TargetFrameworks>
+		<TargetFrameworks>net5.0;netstandard2.0;net45</TargetFrameworks>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<IncludeSymbols>true</IncludeSymbols>
@@ -23,16 +23,16 @@
 	</PropertyGroup>
 
 
-	<PropertyGroup Condition=" '$(TargetFramework)' == 'net45'">
-		<DefineConstants>NETFULL</DefineConstants>
-	</PropertyGroup>	
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net452' OR '$(TargetFramework)' == 'net451' ">
+		<Reference Include="System.Web" />
+	</ItemGroup>
+
 
 	<ItemGroup>
 		<PackageReference Include="IDisposableAnalyzers" Version="3.4.13">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
 
 </Project>

@@ -1,16 +1,13 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Diagnostics;
+using Xunit;
 
-namespace AsNum.JsonConfig.Test
+namespace AsNum.JsonConfig.CoreTest
 {
-    [TestClass]
     public class UnitTest1
     {
-        [TestInitialize]
-        public void Init()
+        public UnitTest1()
         {
             //JsonConfig.Init();
             JsonConfig.Regist<TestConfig>();
@@ -22,7 +19,7 @@ namespace AsNum.JsonConfig.Test
             };
         }
 
-        [TestMethod]
+        [Fact]
         public void TestMethod1()
         {
             var tc = JsonConfig.Get<TestConfig>();

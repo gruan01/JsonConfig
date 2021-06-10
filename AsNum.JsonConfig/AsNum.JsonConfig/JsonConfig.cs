@@ -1,10 +1,8 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace AsNum.JsonConfig
 {
@@ -27,20 +25,42 @@ namespace AsNum.JsonConfig
         /// <summary>
         /// 
         /// </summary>
-        private static Dictionary<string, JsonConfigItem> Map
-        {
-            get;
-        } = new Dictionary<string, JsonConfigItem>();
+        private static readonly Dictionary<string, JsonConfigItem> map = new Dictionary<string, JsonConfigItem>();
 
 
         /// <summary>
         /// 
         /// </summary>
-        private static bool Initlized = false;
+        private static bool initlized = false;
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private static readonly FileSystemWatcher fw;
+
+        /// <summary>
+        /// 
+        /// </summary>
         static JsonConfig()
         {
+
+            fw = new FileSystemWatcher
+            {
+                Filter = "*.json"
+            };
+
+            fw.Changed += Fw_Changed;
+            fw.Created += Fw_Created;
+            fw.Deleted += Fw_Deleted;
+            //在这里调用会报错
+            //fw.EnableRaisingEvents = true;
+
+#if NETFULL
             var webSitePath = AppDomain.CurrentDomain.SetupInformation.PrivateBinPath;
+#else
+            string webSitePath = null;
+#endif
             var exePath = AppDomain.CurrentDomain.BaseDirectory;
             //if PrivateBinPath is not null, this may be run as a website
             //if PrivateBinPath is null, it must be a exe.
@@ -69,13 +89,13 @@ namespace AsNum.JsonConfig
         /// <param name="baseDir"></param>
         public static void Init(string baseDir = null)
         {
-            if (!Initlized)
+            if (!initlized)
             {
                 if (!string.IsNullOrWhiteSpace(baseDir))
                     BaseDir = baseDir;
 
                 Watch(BaseDir);
-                Initlized = true;
+                initlized = true;
             }
         }
 
@@ -98,16 +118,16 @@ namespace AsNum.JsonConfig
         public static void Regist<T>(T cfg) where T : JsonConfigItem
         {
             if (cfg == null)
-                throw new ArgumentNullException("cfg");
+                throw new ArgumentNullException(nameof(cfg));
 
-            if (!Initlized)
+            if (!initlized)
                 Init();
 
             var key = Path.GetFileNameWithoutExtension(cfg.CfgFile.ToLower());
 
-            if (!Map.ContainsKey(key))
+            if (!map.ContainsKey(key))
             {
-                Map.Add(key, cfg);
+                map.Add(key, cfg);
                 Reload(key);
             }
         }
@@ -120,10 +140,7 @@ namespace AsNum.JsonConfig
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
 
-            var fw = new FileSystemWatcher(dir, "*.json");
-            fw.Changed += Fw_Changed;
-            fw.Created += Fw_Created;
-            fw.Deleted += Fw_Deleted;
+            fw.Path = dir;
             fw.EnableRaisingEvents = true;
         }
 
@@ -135,9 +152,9 @@ namespace AsNum.JsonConfig
         private static void Fw_Deleted(object sender, FileSystemEventArgs e)
         {
             var key = GetKey(e.Name);
-            if (Map.ContainsKey(key))
+            if (map.ContainsKey(key))
             {
-                Map.Remove(key);
+                map.Remove(key);
             }
         }
 
@@ -179,13 +196,13 @@ namespace AsNum.JsonConfig
         private static void Reload(string name)
         {
             var key = GetKey(name);
-            if (Map.ContainsKey(key))
+            if (map.ContainsKey(key))
             {
-                var o = Map[key];
+                var o = map[key];
                 var no = o.Load();
                 if (no != null)
                 {
-                    Map[key] = no;
+                    map[key] = no;
                 }
             }
         }
@@ -199,7 +216,7 @@ namespace AsNum.JsonConfig
         public static T Get<T>() where T : JsonConfigItem
         {
             var type = typeof(T);
-            var a = Map.Values.FirstOrDefault(t => type.IsInstanceOfType(t));
+            var a = map.Values.FirstOrDefault(t => type.IsInstanceOfType(t));
             return (T)a;
         }
 
@@ -217,10 +234,10 @@ namespace AsNum.JsonConfig
 
             var key = Path.GetFileNameWithoutExtension(cfg.CfgFile.ToLower());
 
-            if (Map.ContainsKey(key))
-                Map[key] = cfg;
+            if (map.ContainsKey(key))
+                map[key] = cfg;
             else
-                Map.Add(key, cfg);
+                map.Add(key, cfg);
 
             var json = JsonConvert.SerializeObject(cfg, Formatting.Indented);
 
